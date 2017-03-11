@@ -1,5 +1,9 @@
 var user = require('../user.js');
+var skillz = require('../skillz.js');
+var secrets = require('../secrets.js')
 
+
+var skillzId = 4;
 
 module.exports = {
 
@@ -28,27 +32,26 @@ module.exports = {
     res.status(200).json({latestOccupation : latestOccupation})
   },
   getHobbies: function(req, res, next){
-    console.log(req.params)
-    if(req.params){
+    if(req.params.type){
       var filteredHobbies = user.hobbies.filter(function(hobby){
-        console.log(req.params.type)
         return hobby.type === req.params.type
       })
         res.status(200).json({hobbies : filteredHobbies})
       } else res.status(200).json({hobbies : user.hobbies})
     },
   getFamily: function(req, res, next){
-    if(req.params){
+    console.log('this is req.params', req.params)
+    console.log(user.family)
+     if (req.params.gender){
       var filteredFamily = user.family.filter(function(member){
-        return member.gender === req.params.gender
-      })
-      res.status(200).json({family: filteredFamily})
-    }
-    else res.status(200).json({family : user.family})
+          return member.gender === req.params.gender
+        })
+        res.status(200).json({family: filteredFamily})
+    } else res.status(200).json({family : user.family})
   },
   getRestaurants: function(req, res, next){
     console.log(req.params)
-    if(req.params){
+    if(req.params.name){
       var filteredRestaurant = user.restaurants.filter(function(place){
         return place.name === req.params.name;
       })
@@ -58,8 +61,8 @@ module.exports = {
   },
 
   putName: function(req, res, next){
-    console.log(req.body.name);
     user.name = req.body.name;
+    console.log('this is user.name', user.name)
     res.send('user name is now ' + user.name);
   },
   putLocation: function(req, res, next){
@@ -68,13 +71,48 @@ module.exports = {
     res.send('user location is now ' + user.location);
   },
   addHobbies: function(req, res, next){
-    console.log(req.body.name)
     user.hobbies.push(
       {name : req.body.name,
       type: req.body.type}
     )
     console.log(user.hobbies)
     res.send(user.hobbies);
+  },
+  addOccupations: function(req, res, next){
+    user.occupations.push(req.body.occupation)
+    res.status(200).json(user.occupations)
+  },
+  addFamily: function(req, res, next){
+    console.log('this is req.body', req.body)
+    user.family.push(req.body)
+    res.status(200).json(user.family)
+  },
+  addRestaurants: function(req, res, next){
+    console.log('this is req.body for addRestaurants', req.body)
+    user.restaurants.push(req.body);
+    console.log(user.restaurants)
+    res.send(user.restuarants)
+  },
+  getSkillz: function(req, res, next){
+    console.log('this is req.query', req.query.experience)
+    if(req.query.experience){
+      var filteredSkillz = skillz.filter(function(skill){
+        return skill.experience === req.query.experience
+      })
+      console.log('this is filteredskillz', filteredSkillz)
+      res.status(200).json(filteredSkillz)
+    }
+    else res.status(200).json(skillz)
+  },
+  addSkillz: function(req, res, next){
+    var rawSkillz = req.body;
+    rawSkillz.id = skillzId;
+    skillzId++;
+    skillz.push(rawSkillz);
+    res.status(200).json(skillz)
+  },
+  getSecrets: function(req, res, next){
+    res.status(200).json(secrets)
   }
 
 

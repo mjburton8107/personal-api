@@ -1,3 +1,6 @@
+
+var secrets = require("../secrets.js")
+
 module.exports = {
 
   addHeaders: function(req, res, next) {
@@ -12,8 +15,15 @@ module.exports = {
     });
 
     next();
+  },
+  verifyUser: function(req, res, next){
+    
+    // console.log(req.params.username ' & ' req.params.pin)
+    if(req.params.username === 'mjb' && req.params.pin == 0001){
+        next();
+      }
+    else res.send('error; access denied')
   }
-
 
 
 }

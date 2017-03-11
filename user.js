@@ -1,7 +1,7 @@
 var user = {
   name: 'Michael Burton',
   location: 'Salt Lake City',
-  occupations: ['capital projects analyst', 'teacher', 'medical salesman', 'ad salesman', 'visionary'],
+  occupations: ['capital projects analyst', 'teacher', 'medical salesman', 'ad salesman', 'visionary', 'millionaire'],
   hobbies: [
     {
       name: 'reading',
